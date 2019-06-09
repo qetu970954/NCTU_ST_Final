@@ -5,6 +5,7 @@ python:
 
 install:
   - "pip install pytest-cov pytest"
+  - "pip install codecov"
   - "pip list"
 
 script:
