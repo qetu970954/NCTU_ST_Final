@@ -4,7 +4,7 @@ python:
   - "3.6"
 
 install:
-  - "pip install pytest-cov pytest"
+  - "pip install --upgrade pytest-cov pytest"
   - "pip install codecov"
   - "pip list"
 
