@@ -6,15 +6,14 @@ python:
   - "3.6"
 
 install:
-  - sudo apt-get install graphviz
   - "python setup.py install"
-  - "pip install nose==1.3.7"
-  - "pip install coverage==4.3.4"
-  - "pip install coveralls"
+  - "pip install pytest-cov pytest"
   - "pip list"
 
 script:
-  - nosetests
+  # Execute tests under the 'tests' directory.
+  - py.test --cov=./ tests/
+  - codecov
 
 after_success:
-  coveralls
+  - codecov
