@@ -12,7 +12,9 @@ docs/build/
 *.png
 
 # IntelliJ project files
-.idea
+.idea/
 *.iml
 out
 gen
+
+.pytest_cache/
