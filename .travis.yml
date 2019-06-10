@@ -11,7 +11,7 @@ install:
 
 script:
   # Execute tests under the 'tests' directory.
-  - python -m py.test --cov=./ tests/
+  - python -m pytest --cov=./ tests/
 
 after_success:
   - codecov
