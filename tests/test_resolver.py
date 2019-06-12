@@ -11,7 +11,9 @@ def tree_get():
     sub0sub0 = Node("sub0sub0", parent=sub0)
     sub0sub1 = Node("sub0sub1", parent=sub0)
     sub1 = Node("sub1", parent=top)
-    return {"top": top, "sub0": sub0, "sub0sub0": sub0sub0, "sub0sub1": sub0sub1, "sub1": sub1, }
+    ath = Node("ath", parent=None)
+    athsub = Node("athsub", parent=ath)
+    return {"top": top, "sub0": sub0, "sub0sub0": sub0sub0, "sub0sub1": sub0sub1, "sub1": sub1, "ath": ath, "athsub": athsub,}
 
 testdata_get = [
     # Relative paths
@@ -24,9 +26,10 @@ testdata_get = [
     ("sub0sub0","/top", "top", None),
     ("sub0sub0", "/top/sub0", "sub0",None),
     # Exception for three cases
-    ("top", "sub2", "", ChildResolverError),
-    ("sub0sub0", "/", "", ResolverError),       # root missing
-    ("sub0sub0", "/sbar", "", ResolverError),    # unknow root node
+    ("top", "sub2", "", ChildResolverError),        # same tree
+    ("athsub", "../sub0", "", ChildResolverError),    # other tree
+    ("sub0sub0", "/", "", ResolverError),           # root missing
+    ("sub0sub0", "/sbar", "", ResolverError),        # unknow root node
 ]
 
 @pytest.fixture
@@ -93,3 +96,24 @@ def test_glob(tree_glob, resolver, source, path, expected, exception):
     elif exception is ResolverError:
         with pytest.raises(exception):
             resolver.glob(tree_glob[source], path)
+
+
+
+def test_glob_cache():
+    """Wildcard Cache."""
+    #  make tree
+    top = Node("top")
+    for i in range(21):
+        name = "sub" + str(i)
+        i = Node(name, parent=top)
+    r = Resolver()
+    Resolver._match_cache.clear()
+
+    # test case
+    for i in range(21):
+        name = "sub" + str(i)
+        #assert len(Resolver._match_cache) == i
+        r.glob(top, name)
+    # up to max cache size 20
+    # test if it will do Resolver._match_cache.clear()
+    assert len(Resolver._match_cache) == 1
