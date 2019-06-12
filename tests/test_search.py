@@ -6,6 +6,7 @@ from anytree import findall, findall_by_attr
 from anytree import CountError
 
 
+'''
 @pytest.fixture
 def tree_findall():
     f = Node("f")
@@ -17,7 +18,6 @@ def tree_findall():
     return {"f": f, "b": b, "a": a, "d": d, "c": c, "e": e, }
 
 
-'''
 testdata_findall[
     ("f", lambda node: node.name in ("a", "b"), ("b","a"), None),
     ("f", lambda node: d in node.path, ("b","a"), None),
