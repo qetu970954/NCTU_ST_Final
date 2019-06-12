@@ -17,14 +17,13 @@ def tree_get():
 
 testdata_get = [
     # Relative paths
-    ("top", "sub0/sub0sub0", "sub0sub0", None),
-    ("sub1", "..", "top", None),
-    ("sub1", "../sub0/sub0sub1", "sub0sub1", None),
-    ("sub1", ".", "sub1", None),
-    ("sub1", "", "sub1", None),
+    ("top", "sub0/sub0sub0", "sub0sub0", None),         # test noraml case
+    ("sub1", "../sub0/sub0sub1", "sub0sub1", None),      # test ".." & normal case
+    ("sub1", ".", "sub1", None),                     # test "."
+    ("sub1", "", "sub1", None),                     # test nothing
     # Absolute paths
-    ("sub0sub0","/top", "top", None),
-    ("sub0sub0", "/top/sub0", "sub0",None),
+    ("sub0sub0","/top", "top", None),                 # test one level
+    ("sub0sub0", "/top/sub0", "sub0",None),            # test two level
     # Exception for three cases
     ("top", "sub2", "", ChildResolverError),        # same tree
     ("athsub", "../sub0", "", ChildResolverError),    # other tree
@@ -64,11 +63,11 @@ testdata_glob = [
     # Relative paths
     ("top", "sub0/sub?", "sub0sub0, sub0sub1", None),       # test "?"
     ("sub1", ".././*", "sub0, sub1", None),                 # test "*"
-    ("top", "*/*", "sub0sub0, sub0sub1, sub1sub0", None),
-    ("top", "*/sub0", "sub0sub0, sub1sub0", None),
+    ("top", "*/*", "sub0sub0, sub0sub1, sub1sub0", None),    # test double "*"
+    ("top", "sub0/sub0", "sub0sub0", None),               # test normal case
     ("top", "sub1/sub1", "", ChildResolverError),
     # Non-matching wildcards are no error
-    ("top", "sbar*", " ", None),
+    ("top", "sbar*", " ", None),                     # strange case
     ("top", "sub2", "", ChildResolverError),
     # Absolute paths
     ("sub0sub0", "/top/*", "sub0, sub1", None),
