@@ -52,19 +52,19 @@ def test_get(tree_get, resolver, source, path, expected, exception):
 def tree_glob():
     top = Node("top", parent=None)
     sub0 = Node("sub0", parent=top)
-    sub0sub0 = Node("sub0", parent=sub0)
-    sub0sub1 = Node("sub1", parent=sub0)
+    sub0sub0 = Node("sub0sub0", parent=sub0)
+    sub0sub1 = Node("sub0sub1", parent=sub0)
     sub1 = Node("sub1", parent=top)
-    sub1sub0 = Node("sub0", parent=sub1)
+    sub1sub0 = Node("sub1sub0", parent=sub1)
     nothing = []
     return {"top": top, "sub0": sub0, "sub0sub0": sub0sub0, "sub0sub1": sub0sub1, "sub1": sub1, "sub1sub0": sub1sub0, " ": nothing}
 
 testdata_glob = [
     # Relative paths
-    ("top", "sub0/sub?", "sub0sub0, sub0sub1", None),       # test "?"
+    ("top", "sub0/sub0sub?", "sub0sub0, sub0sub1", None),       # test "?"
     ("sub1", ".././*", "sub0, sub1", None),                 # test "*"
     ("top", "*/*", "sub0sub0, sub0sub1, sub1sub0", None),    # test double "*"
-    ("top", "sub0/sub0", "sub0sub0", None),               # test normal case
+    ("top", "sub0/sub0sub0", "sub0sub0", None),               # test normal case
     ("top", "sub1/sub1", "", ChildResolverError),
     # Non-matching wildcards are no error
     ("top", "sbar*", " ", None),                     # strange case
